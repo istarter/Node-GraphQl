@@ -5,7 +5,7 @@ import { uuid } from "uuidv4";
 // import express
 const app = express();
 
-// writing queries and mutions here.
+// writing queries and mutations here.
 const schema = gql`
   type Query {
     whoami: String
@@ -60,10 +60,14 @@ const resolvers = {
     },
     // deleting user
     deleteStudent: (_, args) => {
-      const stdObj = studentList.find((sObj) => sObj.id == args.sid);
-      studentList.splice(stdObj.id - 1, 1);
-      console.log(studentList);
-      return stdObj.id;
+      let stdIndex = -1;
+      studentList.forEach((sObj, ind) => {
+        if (sObj.id == args.sid) {
+          stdIndex = ind;
+        }
+      });
+      studentList.splice(stdIndex, 1);
+      return args.sid;
     },
   },
 };
